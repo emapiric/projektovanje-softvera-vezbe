@@ -9,9 +9,14 @@ import java.util.List;
 import rs.ac.bg.fon.ps.domain.Manufacturer;
 import rs.ac.bg.fon.ps.domain.Product;
 import rs.ac.bg.fon.ps.domain.User;
+import rs.ac.bg.fon.ps.repository.Repository;
 import rs.ac.bg.fon.ps.repository.RepositoryManufacturer;
 import rs.ac.bg.fon.ps.repository.RepositoryProduct;
 import rs.ac.bg.fon.ps.repository.RepositoryUser;
+import rs.ac.bg.fon.ps.repository.db.DBRepository;
+import rs.ac.bg.fon.ps.repository.db.impl.DBRepositoryManufacturer;
+import rs.ac.bg.fon.ps.repository.db.impl.DBRepositoryProduct;
+import rs.ac.bg.fon.ps.repository.db.impl.DBRepositoryUser;
 
 /**
  *
@@ -20,14 +25,14 @@ import rs.ac.bg.fon.ps.repository.RepositoryUser;
 public class Controller {
 
     private static Controller controller;
-    private final RepositoryUser repositoryUser;
-    private final RepositoryManufacturer repositoryManufacturer;
-    private final RepositoryProduct repositoryProduct;
+    private final Repository<User> repositoryUser;
+    private final Repository repositoryManufacturer;
+    private final Repository repositoryProduct;
 
     private Controller() {
-        this.repositoryUser = new RepositoryUser();
-        this.repositoryManufacturer = new RepositoryManufacturer();
-        this.repositoryProduct = new RepositoryProduct();
+        this.repositoryUser = new DBRepositoryUser();
+        this.repositoryManufacturer = new DBRepositoryManufacturer();
+        this.repositoryProduct = new DBRepositoryProduct();
     }
     
      public static Controller getInstance() {
@@ -37,7 +42,7 @@ public class Controller {
      }
     
     public User login(String username, String password) throws Exception {
-        List<User> users = repositoryUser.getUsers();
+        List<User> users = repositoryUser.getAll();
         for (User user: users) {
             if (user.getUsername().equals(username)&&user.getPassword().equals(password)) {
                 return user;
@@ -47,18 +52,18 @@ public class Controller {
     }
     
     public List<Manufacturer> getAllManufacturers() {
-        return repositoryManufacturer.getManufacturers();
+        return repositoryManufacturer.getAll();
     }
     
-    public void addProduct(Product product) {
+    public void addProduct(Product product) throws Exception {
         repositoryProduct.add(product);
     }
     
     public List<Product> getAllProducts() {
-        return repositoryProduct.getProducts();
+        return repositoryProduct.getAll();
     }
 
     public void deleteProduct(Product product) throws Exception {
-        repositoryProduct.delete(product);
+        //repositoryProduct.delete(product);
     }
 }

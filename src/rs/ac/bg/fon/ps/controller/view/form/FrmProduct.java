@@ -209,13 +209,13 @@ public class FrmProduct extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSave)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnEnableChanges)
                         .addComponent(btnCancel)
                         .addComponent(btnEdit)
-                        .addComponent(btnDelete)))
+                        .addComponent(btnDelete))
+                    .addComponent(btnSave))
                 .addGap(38, 38, 38))
         );
 
@@ -239,8 +239,12 @@ public class FrmProduct extends javax.swing.JDialog {
         product.setMeasurementUnit((MeasurementUnit) cbMeasurementUnit.getSelectedItem());
         product.setManufacturer((Manufacturer) cbManufacturer.getSelectedItem());
         Controller controller = Controller.getInstance();
-        controller.addProduct(product);
-        JOptionPane.showMessageDialog(this, "Product successfully saved");
+        try {
+            controller.addProduct(product);
+            JOptionPane.showMessageDialog(this, "Product successfully saved");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnEnableChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnableChangesActionPerformed
